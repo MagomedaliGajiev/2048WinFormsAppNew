@@ -151,7 +151,7 @@ namespace _2048WinFormsAppNew
                     {
                         if (_labelsMap[i, j].Text == string.Empty)
                         {
-                            for (int k = i + 1; k < _mapSize; k++)
+                            for (int k = j + 1; k < _mapSize; k++)
                             {
                                 if (_labelsMap[i, k].Text != string.Empty)
                                 {
