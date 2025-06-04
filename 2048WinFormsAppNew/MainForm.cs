@@ -76,8 +76,8 @@
             // Выбор случайной пустой ячейки
             var randomCell = emptyCells[_random.Next(emptyCells.Count)];
 
-            // Генерация 2 (90%) или 4 (10%)
-            var value = _random.Next(10) < 9 ? 2 : 4;
+            // Генерация 2 (75%) или 4 (25%)
+            var value = _random.Next(100) < 75 ? 2 : 4;
 
             _labelsMap[randomCell.row, randomCell.col].Text = value.ToString();
         }
