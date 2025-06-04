@@ -1,4 +1,4 @@
-namespace _2048WinFormsAppNew
+﻿namespace _2048WinFormsAppNew
 {
     // i * mapSize + j = number
     public partial class MainForm : Form
@@ -16,8 +16,7 @@ namespace _2048WinFormsAppNew
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitMap();
-            GenerateNumber();
-            ShowScore();
+            ResetGame(); // Заменяем GenerateNumber на ResetGame
         }
 
         private void ShowScore()
@@ -57,19 +56,30 @@ namespace _2048WinFormsAppNew
 
         private void GenerateNumber()
         {
-            while (true)
-            {
-                var randomNumberLabel = _random.Next(_mapSize * _mapSize);
-                var indexRow = randomNumberLabel / _mapSize;
-                var indexColumn = randomNumberLabel % _mapSize;
+            List<(int row, int col)> emptyCells = new List<(int, int)>();
 
-                if (_labelsMap[indexRow, indexColumn].Text == string.Empty)
+            // Сбор списка пустых ячеек
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
                 {
-                    // ����� �������� ������������� ���� 2 ���� 4
-                    _labelsMap[indexRow, indexColumn].Text = "2";
-                    break;
+                    if (string.IsNullOrEmpty(_labelsMap[i, j].Text))
+                    {
+                        emptyCells.Add((i, j));
+                    }
                 }
             }
+
+            if (emptyCells.Count == 0)
+                return;
+
+            // Выбор случайной пустой ячейки
+            var randomCell = emptyCells[_random.Next(emptyCells.Count)];
+
+            // Генерация 2 (90%) или 4 (10%)
+            var value = _random.Next(10) < 9 ? 2 : 4;
+
+            _labelsMap[randomCell.row, randomCell.col].Text = value.ToString();
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -257,6 +267,48 @@ namespace _2048WinFormsAppNew
 
             GenerateNumber();
             ShowScore();
+        }
+
+        private void ResetGame()
+        {
+            _score = 0;
+            ShowScore();
+
+            // Очистка игрового поля
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    _labelsMap[i, j].Text = string.Empty;
+                }
+            }
+
+            // Генерация двух начальных чисел
+            GenerateNumber();
+            GenerateNumber();
+        }
+
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResetGame();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void rulesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "Правила игры 2048:\n\n" +
+                "1. Используйте стрелки клавиатуры для перемещения плиток\n" +
+                "2. При столкновении одинаковых плиток они объединяются\n" +
+                "3. После каждого хода появляется новая плитка (2 или 4)\n" +
+                "4. Цель - получить плитку 2048\n\n" +
+                "Управление:\n← → ↑ ↓ - движение плиток",
+                "Правила игры"
+            );
         }
     }
 }
