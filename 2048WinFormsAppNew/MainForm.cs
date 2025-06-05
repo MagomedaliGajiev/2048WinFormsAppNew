@@ -16,6 +16,7 @@ namespace _2048WinFormsAppNew
         public MainForm()
         {
             InitializeComponent();
+            LoadSettings(); // Загружаем размер поля
             LoadBestScore();
         }
 
