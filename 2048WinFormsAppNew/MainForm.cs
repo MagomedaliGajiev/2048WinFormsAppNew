@@ -245,9 +245,6 @@ namespace _2048WinFormsAppNew
             // Генерация двух начальных чисел
             GenerateNumber();
             GenerateNumber();
-
-            // Запрос имени игрока
-            AskPlayerName();
         }
 
         private void LoadSettings()
