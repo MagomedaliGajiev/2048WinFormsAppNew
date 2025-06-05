@@ -91,19 +91,6 @@ namespace _2048WinFormsAppNew
             }
         }
 
-        private void AskPlayerName()
-        {
-            using (var inputForm = new InputForm("Введите ваше имя:", _currentPlayer))
-            {
-                if (inputForm.ShowDialog() == DialogResult.OK)
-                {
-                    _currentPlayer = string.IsNullOrWhiteSpace(inputForm.InputText)
-                        ? "Player"
-                        : inputForm.InputText;
-                }
-            }
-        }
-
         private bool HasMoves()
         {
             // Проверка пустых клеток
