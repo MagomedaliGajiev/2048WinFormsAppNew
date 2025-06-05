@@ -3,12 +3,12 @@
     partial class MainForm
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -23,8 +23,8 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -33,9 +33,12 @@
             menuStrip1 = new MenuStrip();
             gameToolStripMenuItem = new ToolStripMenuItem();
             newGameToolStripMenuItem = new ToolStripMenuItem();
+            historyToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             rulesToolStripMenuItem = new ToolStripMenuItem();
+            label2 = new Label();
+            bestScoreLabel = new Label();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -51,7 +54,7 @@
             // scoreLabel
             // 
             scoreLabel.AutoSize = true;
-            scoreLabel.Location = new Point(67, 30);
+            scoreLabel.Location = new Point(58, 30);
             scoreLabel.Name = "scoreLabel";
             scoreLabel.Size = new Size(13, 15);
             scoreLabel.TabIndex = 1;
@@ -68,7 +71,7 @@
             // 
             // gameToolStripMenuItem
             // 
-            gameToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newGameToolStripMenuItem, exitToolStripMenuItem });
+            gameToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newGameToolStripMenuItem, historyToolStripMenuItem, exitToolStripMenuItem });
             gameToolStripMenuItem.Name = "gameToolStripMenuItem";
             gameToolStripMenuItem.Size = new Size(46, 20);
             gameToolStripMenuItem.Text = "Игра";
@@ -76,14 +79,21 @@
             // newGameToolStripMenuItem
             // 
             newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            newGameToolStripMenuItem.Size = new Size(136, 22);
+            newGameToolStripMenuItem.Size = new Size(143, 22);
             newGameToolStripMenuItem.Text = "Новая игра";
             newGameToolStripMenuItem.Click += newGameToolStripMenuItem_Click;
+            // 
+            // historyToolStripMenuItem
+            // 
+            historyToolStripMenuItem.Name = "historyToolStripMenuItem";
+            historyToolStripMenuItem.Size = new Size(143, 22);
+            historyToolStripMenuItem.Text = "История игр";
+            historyToolStripMenuItem.Click += historyToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(136, 22);
+            exitToolStripMenuItem.Size = new Size(143, 22);
             exitToolStripMenuItem.Text = "Выход";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -97,15 +107,35 @@
             // rulesToolStripMenuItem
             // 
             rulesToolStripMenuItem.Name = "rulesToolStripMenuItem";
-            rulesToolStripMenuItem.Size = new Size(180, 22);
+            rulesToolStripMenuItem.Size = new Size(153, 22);
             rulesToolStripMenuItem.Text = "Правила игры";
             rulesToolStripMenuItem.Click += rulesToolStripMenuItem_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(123, 30);
+            label2.Name = "label2";
+            label2.Size = new Size(49, 15);
+            label2.TabIndex = 3;
+            label2.Text = "Рекорд:";
+            // 
+            // bestScoreLabel
+            // 
+            bestScoreLabel.AutoSize = true;
+            bestScoreLabel.Location = new Point(178, 30);
+            bestScoreLabel.Name = "bestScoreLabel";
+            bestScoreLabel.Size = new Size(13, 15);
+            bestScoreLabel.TabIndex = 4;
+            bestScoreLabel.Text = "0";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(339, 375);
+            Controls.Add(bestScoreLabel);
+            Controls.Add(label2);
             Controls.Add(scoreLabel);
             Controls.Add(label1);
             Controls.Add(menuStrip1);
@@ -131,5 +161,8 @@
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem rulesToolStripMenuItem;
+        private Label label2;
+        private Label bestScoreLabel;
+        private ToolStripMenuItem historyToolStripMenuItem;
     }
 }

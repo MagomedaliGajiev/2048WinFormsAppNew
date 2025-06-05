@@ -1,22 +1,142 @@
-﻿namespace _2048WinFormsAppNew
+﻿using System.Diagnostics;
+using System.Text;
+
+namespace _2048WinFormsAppNew
 {
-    // i * mapSize + j = number
     public partial class MainForm : Form
     {
         private const int _mapSize = 4;
         private Label[,] _labelsMap;
         private static Random _random = new Random();
         private int _score = 0;
+        private int _bestScore = 0;
+        private static string _historyFilePath = "game_history.txt";
+        private string _currentPlayer = "Player";
 
         public MainForm()
         {
             InitializeComponent();
+            LoadBestScore();
+        }
+
+        private void LoadBestScore()
+        {
+            if (File.Exists("best_score.dat"))
+            {
+                try
+                {
+                    _bestScore = int.Parse(File.ReadAllText("best_score.dat"));
+                    bestScoreLabel.Text = _bestScore.ToString();
+                }
+                catch
+                {
+                    _bestScore = 0;
+                }
+            }
+        }
+
+        private void SaveBestScore()
+        {
+            if (_score > _bestScore)
+            {
+                _bestScore = _score;
+                bestScoreLabel.Text = _bestScore.ToString();
+                File.WriteAllText("best_score.dat", _bestScore.ToString());
+            }
+        }
+
+        private void SaveGameResult()
+        {
+            try
+            {
+                string record = $"{_currentPlayer}|{_score}|{DateTime.Now:yyyy-MM-dd HH:mm}\n";
+                File.AppendAllText(_historyFilePath, record);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сохранения истории: {ex.Message}");
+            }
+        }
+
+        private void ShowGameHistory()
+        {
+            if (!File.Exists(_historyFilePath))
+            {
+                MessageBox.Show("История игр пуста!", "История");
+                return;
+            }
+
+            try
+            {
+                var history = new StringBuilder();
+                history.AppendLine("История игр:\n");
+                history.AppendLine("Игрок\t\tОчки\t\tДата");
+                history.AppendLine("-----------------------------------");
+
+                foreach (var line in File.ReadAllLines(_historyFilePath))
+                {
+                    var parts = line.Split('|');
+                    if (parts.Length >= 3)
+                    {
+                        history.AppendLine($"{parts[0]}\t\t{parts[1]}\t\t{parts[2]}");
+                    }
+                }
+
+                MessageBox.Show(history.ToString(), "История игр");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка чтения истории: {ex.Message}");
+            }
+        }
+
+        private void AskPlayerName()
+        {
+            using (var inputForm = new InputForm("Введите ваше имя:", _currentPlayer))
+            {
+                if (inputForm.ShowDialog() == DialogResult.OK)
+                {
+                    _currentPlayer = string.IsNullOrWhiteSpace(inputForm.InputText)
+                        ? "Player"
+                        : inputForm.InputText;
+                }
+            }
+        }
+
+        private bool HasMoves()
+        {
+            // Проверка пустых клеток
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    if (string.IsNullOrEmpty(_labelsMap[i, j].Text))
+                        return true;
+                }
+            }
+
+            // Проверка возможных слияний
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    // Проверка по горизонтали
+                    if (j < _mapSize - 1 && _labelsMap[i, j].Text == _labelsMap[i, j + 1].Text)
+                        return true;
+
+                    // Проверка по вертикали
+                    if (i < _mapSize - 1 && _labelsMap[i, j].Text == _labelsMap[i + 1, j].Text)
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitMap();
-            ResetGame(); // Заменяем GenerateNumber на ResetGame
+            ResetGame();
         }
 
         private void ShowScore()
@@ -37,7 +157,6 @@
                     _labelsMap[i, j] = newLabel;
                 }
             }
-
         }
 
         private Label CreateLabel(int indexRow, int IndexColumn)
@@ -47,8 +166,8 @@
             label.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
             label.Size = new Size(70, 70);
             label.TextAlign = ContentAlignment.MiddleCenter;
-            int x = 10 + IndexColumn * 76; // 10 + j * (140 +6)
-            int y = 70 + indexRow * 76;   // 140 + j * (140 +6)
+            int x = 10 + IndexColumn * 76;
+            int y = 90 + indexRow * 76;
             label.Location = new Point(x, y);
 
             return label;
@@ -77,13 +196,37 @@
             var randomCell = emptyCells[_random.Next(emptyCells.Count)];
 
             // Генерация 2 (75%) или 4 (25%)
-            var value = _random.Next(100) < 75 ? 2 : 4;
+            int value = _random.Next(100) < 75 ? 2 : 4;
 
             _labelsMap[randomCell.row, randomCell.col].Text = value.ToString();
         }
 
+        private void ResetGame()
+        {
+            _score = 0;
+            ShowScore();
+
+            // Очистка игрового поля
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    _labelsMap[i, j].Text = string.Empty;
+                }
+            }
+
+            // Генерация двух начальных чисел
+            GenerateNumber();
+            GenerateNumber();
+
+            // Запрос имени игрока
+            AskPlayerName();
+        }
+
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
+            bool moved = false;
+
             if (e.KeyCode == Keys.Right)
             {
                 for (int i = 0; i < _mapSize; i++)
@@ -102,6 +245,7 @@
                                         _score += number * 2;
                                         _labelsMap[i, j].Text = (number * 2).ToString();
                                         _labelsMap[i, k].Text = string.Empty;
+                                        moved = true;
                                     }
                                     break;
                                 }
@@ -122,6 +266,7 @@
                                 {
                                     _labelsMap[i, j].Text = _labelsMap[i, k].Text;
                                     _labelsMap[i, k].Text = string.Empty;
+                                    moved = true;
                                     break;
                                 }
                             }
@@ -147,6 +292,7 @@
                                         _score += number * 2;
                                         _labelsMap[i, j].Text = (number * 2).ToString();
                                         _labelsMap[i, k].Text = string.Empty;
+                                        moved = true;
                                     }
                                     break;
                                 }
@@ -167,6 +313,7 @@
                                 {
                                     _labelsMap[i, j].Text = _labelsMap[i, k].Text;
                                     _labelsMap[i, k].Text = string.Empty;
+                                    moved = true;
                                     break;
                                 }
                             }
@@ -192,6 +339,7 @@
                                         _score += number * 2;
                                         _labelsMap[i, j].Text = (number * 2).ToString();
                                         _labelsMap[k, j].Text = string.Empty;
+                                        moved = true;
                                     }
                                     break;
                                 }
@@ -212,6 +360,7 @@
                                 {
                                     _labelsMap[i, j].Text = _labelsMap[k, j].Text;
                                     _labelsMap[k, j].Text = string.Empty;
+                                    moved = true;
                                     break;
                                 }
                             }
@@ -237,6 +386,7 @@
                                         _score += number * 2;
                                         _labelsMap[i, j].Text = (number * 2).ToString();
                                         _labelsMap[k, j].Text = string.Empty;
+                                        moved = true;
                                     }
                                     break;
                                 }
@@ -257,6 +407,7 @@
                                 {
                                     _labelsMap[i, j].Text = _labelsMap[k, j].Text;
                                     _labelsMap[k, j].Text = string.Empty;
+                                    moved = true;
                                     break;
                                 }
                             }
@@ -265,27 +416,27 @@
                 }
             }
 
-            GenerateNumber();
-            ShowScore();
-        }
-
-        private void ResetGame()
-        {
-            _score = 0;
-            ShowScore();
-
-            // Очистка игрового поля
-            for (int i = 0; i < _mapSize; i++)
+            if (moved)
             {
-                for (int j = 0; j < _mapSize; j++)
-                {
-                    _labelsMap[i, j].Text = string.Empty;
-                }
+                GenerateNumber();
+                ShowScore();
+                SaveBestScore();
             }
 
-            // Генерация двух начальных чисел
-            GenerateNumber();
-            GenerateNumber();
+            // Проверка окончания игры
+            if (!HasMoves())
+            {
+                SaveGameResult();
+                if (MessageBox.Show("Игра окончена! Хотите сыграть еще?", "Конец игры",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    ResetGame();
+                }
+                else
+                {
+                    Close();
+                }
+            }
         }
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -309,6 +460,11 @@
                 "Управление:\n← → ↑ ↓ - движение плиток",
                 "Правила игры"
             );
+        }
+
+        private void historyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowGameHistory();
         }
     }
 }
