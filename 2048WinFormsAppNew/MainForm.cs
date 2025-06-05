@@ -4,7 +4,8 @@ namespace _2048WinFormsAppNew
 {
     public partial class MainForm : Form
     {
-        private const int _mapSize = 4;
+        private int _mapSize = 4; // По умолчанию 4x4
+        private static string _settingsFilePath = "settings.dat";
         private Label[,] _labelsMap;
         private static Random _random = new Random();
         private int _score = 0;
@@ -220,6 +221,30 @@ namespace _2048WinFormsAppNew
 
             // Запрос имени игрока
             AskPlayerName();
+        }
+
+        private void LoadSettings()
+        {
+            if (File.Exists(_settingsFilePath))
+            {
+                try
+                {
+                    string[] settings = File.ReadAllText(_settingsFilePath).Split('|');
+                    if (settings.Length >= 1)
+                    {
+                        _mapSize = int.Parse(settings[0]);
+                    }
+                }
+                catch
+                {
+                    _mapSize = 4;
+                }
+            }
+        }
+
+        private void SaveSettings()
+        {
+            File.WriteAllText(_settingsFilePath, $"{_mapSize}");
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
