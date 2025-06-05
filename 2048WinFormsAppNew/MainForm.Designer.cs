@@ -1,4 +1,5 @@
-﻿namespace _2048WinFormsAppNew
+﻿
+namespace _2048WinFormsAppNew
 {
     partial class MainForm
     {
@@ -62,7 +63,10 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { gameToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                gameToolStripMenuItem,
+                settingsToolStripMenuItem,   
+                helpToolStripMenuItem});
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(339, 24);
@@ -111,6 +115,23 @@
             rulesToolStripMenuItem.Text = "Правила игры";
             rulesToolStripMenuItem.Click += rulesToolStripMenuItem_Click;
             // 
+            // settingsToolStripMenuItem
+            // 
+            settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                fieldSizeToolStripMenuItem});
+            settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            settingsToolStripMenuItem.Text = "Настройки";
+            // 
+            // fieldSizeToolStripMenuItem
+            // 
+            fieldSizeToolStripMenuItem = new ToolStripMenuItem();
+            fieldSizeToolStripMenuItem.Name = "fieldSizeToolStripMenuItem";
+            fieldSizeToolStripMenuItem.Size = new Size(180, 22);
+            fieldSizeToolStripMenuItem.Text = "Размер поля";
+            fieldSizeToolStripMenuItem.Click += new System.EventHandler(fieldSizeToolStripMenuItem_Click);
+            // 
             // label2
             // 
             label2.AutoSize = true;
@@ -151,6 +172,20 @@
             PerformLayout();
         }
 
+        private void fieldSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var sizeForm = new SizeSelectionForm())
+            {
+                if (sizeForm.ShowDialog() == DialogResult.OK)
+                {
+                    _mapSize = sizeForm.SelectedSize;
+                    SaveSettings();
+                    InitMap();
+                    ResetGame();
+                }
+            }
+        }
+
         #endregion
 
         private Label label1;
@@ -164,5 +199,7 @@
         private Label label2;
         private Label bestScoreLabel;
         private ToolStripMenuItem historyToolStripMenuItem;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private ToolStripMenuItem fieldSizeToolStripMenuItem;
     }
 }

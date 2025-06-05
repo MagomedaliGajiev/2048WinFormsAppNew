@@ -147,31 +147,57 @@ namespace _2048WinFormsAppNew
 
         private void InitMap()
         {
+            // Удаляем старые метки
+            if (_labelsMap != null)
+            {
+                foreach (var label in _labelsMap)
+                {
+                    Controls.Remove(label);
+                }
+            }
+
             _labelsMap = new Label[_mapSize, _mapSize];
+
+            // Рассчитываем размер ячейки в зависимости от размера поля
+            int cellSize = _mapSize > 5 ? 60 : 70;
+            int spacing = 6;
+            int startX = 10;
+            int startY = 90;
 
             for (int i = 0; i < _mapSize; i++)
             {
                 for (int j = 0; j < _mapSize; j++)
                 {
-                    var newLabel = CreateLabel(i, j);
+                    var newLabel = CreateLabel(i, j, cellSize);
+                    newLabel.Location = new Point(
+                        startX + j * (cellSize + spacing),
+                        startY + i * (cellSize + spacing));
                     Controls.Add(newLabel);
                     _labelsMap[i, j] = newLabel;
                 }
             }
+
+            // Обновляем размер формы
+            int formWidth = startX * 2 + _mapSize * (cellSize + spacing);
+            int formHeight = startY + 50 + _mapSize * (cellSize + spacing);
+            ClientSize = new Size(formWidth, formHeight);
         }
 
-        private Label CreateLabel(int indexRow, int IndexColumn)
-        {
-            var label = new Label();
-            label.BackColor = SystemColors.ButtonShadow;
-            label.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            label.Size = new Size(70, 70);
-            label.TextAlign = ContentAlignment.MiddleCenter;
-            int x = 10 + IndexColumn * 76;
-            int y = 90 + indexRow * 76;
-            label.Location = new Point(x, y);
 
-            return label;
+        private Label CreateLabel(int indexRow, int IndexColumn, int size)
+        {
+            return new Label()
+            {
+                BackColor = SystemColors.ButtonShadow,
+                Font = new Font("Segoe UI", GetFontSize(size), FontStyle.Bold),
+                Size = new Size(size, size),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+        }
+
+        private float GetFontSize(int cellSize)
+        {
+            return cellSize > 60 ? 14f : 18f;
         }
 
         private void GenerateNumber()
