@@ -121,11 +121,9 @@ namespace _2048WinFormsAppNew
             {
                 for (int j = 0; j < _mapSize; j++)
                 {
-                    // Проверка по горизонтали
                     if (j < _mapSize - 1 && _labelsMap[i, j].Text == _labelsMap[i, j + 1].Text)
                         return true;
 
-                    // Проверка по вертикали
                     if (i < _mapSize - 1 && _labelsMap[i, j].Text == _labelsMap[i + 1, j].Text)
                         return true;
                 }

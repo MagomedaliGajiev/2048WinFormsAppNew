@@ -33,11 +33,13 @@ namespace _2048WinFormsAppNew
             scoreLabel = new Label();
             menuStrip1 = new MenuStrip();
             gameToolStripMenuItem = new ToolStripMenuItem();
+            settingsToolStripMenuItem = new ToolStripMenuItem();
             newGameToolStripMenuItem = new ToolStripMenuItem();
             historyToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             rulesToolStripMenuItem = new ToolStripMenuItem();
+            fieldSizeToolStripMenuItem = new ToolStripMenuItem();
             label2 = new Label();
             bestScoreLabel = new Label();
             menuStrip1.SuspendLayout();
@@ -63,9 +65,9 @@ namespace _2048WinFormsAppNew
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            menuStrip1.Items.AddRange(new ToolStripItem[] {
                 gameToolStripMenuItem,
-                settingsToolStripMenuItem,   
+                settingsToolStripMenuItem,
                 helpToolStripMenuItem});
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
@@ -117,20 +119,17 @@ namespace _2048WinFormsAppNew
             // 
             // settingsToolStripMenuItem
             // 
-            settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                fieldSizeToolStripMenuItem});
-            settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            settingsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { fieldSizeToolStripMenuItem });
             settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            settingsToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            settingsToolStripMenuItem.Size = new Size(79, 20);
             settingsToolStripMenuItem.Text = "Настройки";
             // 
             // fieldSizeToolStripMenuItem
             // 
-            fieldSizeToolStripMenuItem = new ToolStripMenuItem();
             fieldSizeToolStripMenuItem.Name = "fieldSizeToolStripMenuItem";
             fieldSizeToolStripMenuItem.Size = new Size(180, 22);
             fieldSizeToolStripMenuItem.Text = "Размер поля";
-            fieldSizeToolStripMenuItem.Click += new System.EventHandler(fieldSizeToolStripMenuItem_Click);
+            fieldSizeToolStripMenuItem.Click += fieldSizeToolStripMenuItem_Click;
             // 
             // label2
             // 
