@@ -251,6 +251,28 @@ namespace _2048WinFormsAppNew
             }
         }
 
+        private void UpdateTileColors()
+        {
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    var label = _labelsMap[i, j];
+                    if (!string.IsNullOrEmpty(label.Text) && int.TryParse(label.Text, out int value))
+                    {
+                        label.BackColor = GetTileColor(value);
+                        // Устанавливаем контрастный цвет текста
+                        label.ForeColor = value < 8 ? Color.FromArgb(119, 110, 101) : Color.White;
+                    }
+                    else
+                    {
+                        label.BackColor = SystemColors.ButtonShadow;
+                        label.ForeColor = SystemColors.ControlText;
+                    }
+                }
+            }
+        }
+
         private void LoadSettings()
         {
             if (File.Exists(_settingsFilePath))
