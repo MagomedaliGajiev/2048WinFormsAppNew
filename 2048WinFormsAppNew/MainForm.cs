@@ -154,6 +154,10 @@ namespace _2048WinFormsAppNew
                 for (int j = 0; j < _mapSize; j++)
                 {
                     var newLabel = CreateLabel(i, j, cellSize);
+                    // Устанавливаем начальные цвета
+                    newLabel.BackColor = SystemColors.ButtonShadow;
+                    newLabel.ForeColor = SystemColors.ControlText;
+
                     newLabel.Location = new Point(
                         startX + j * (cellSize + spacing),
                         startY + i * (cellSize + spacing));
@@ -211,6 +215,7 @@ namespace _2048WinFormsAppNew
             var value = _random.Next(100) < 75 ? 2 : 4;
 
             _labelsMap[randomCell.row, randomCell.col].Text = value.ToString();
+            // Цвет обновится в UpdateTileColors
         }
 
         private void ResetGame()
@@ -230,6 +235,7 @@ namespace _2048WinFormsAppNew
             // Генерация двух начальных чисел
             GenerateNumber();
             GenerateNumber();
+            UpdateTileColors(); // Обновляем цвета после сброса
         }
 
         private Color GetTileColor(int value)
@@ -495,6 +501,7 @@ namespace _2048WinFormsAppNew
                 GenerateNumber();
                 ShowScore();
                 SaveBestScore();
+                UpdateTileColors(); // Обновляем цвета после перемещения
             }
 
             // Проверка окончания игры
