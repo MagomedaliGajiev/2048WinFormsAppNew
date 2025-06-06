@@ -186,7 +186,7 @@ namespace _2048WinFormsAppNew
 
         private float GetFontSize(int cellSize)
         {
-            return cellSize > 60 ? 14f : 18f;
+            return cellSize > 60 ? 18f : 14f;
         }
 
         private void GenerateNumber()
