@@ -144,10 +144,10 @@ namespace _2048WinFormsAppNew
             _labelsMap = new Label[_mapSize, _mapSize];
 
             // Рассчитываем размер ячейки в зависимости от размера поля
-            int cellSize = _mapSize > 5 ? 60 : 70;
-            int spacing = 6;
-            int startX = 10;
-            int startY = 90;
+            var cellSize = _mapSize > 5 ? 60 : 70;
+            var spacing = 6;
+            var startX = 10;
+            var startY = 90;
 
             for (int i = 0; i < _mapSize; i++)
             {
@@ -163,8 +163,8 @@ namespace _2048WinFormsAppNew
             }
 
             // Обновляем размер формы
-            int formWidth = startX * 2 + _mapSize * (cellSize + spacing);
-            int formHeight = startY + 50 + _mapSize * (cellSize + spacing);
+            var formWidth = startX * 2 + _mapSize * (cellSize + spacing);
+            var formHeight = startY + 50 + _mapSize * (cellSize + spacing);
             ClientSize = new Size(formWidth, formHeight);
         }
 
@@ -208,7 +208,7 @@ namespace _2048WinFormsAppNew
             var randomCell = emptyCells[_random.Next(emptyCells.Count)];
 
             // Генерация 2 (75%) или 4 (25%)
-            int value = _random.Next(100) < 75 ? 2 : 4;
+            var value = _random.Next(100) < 75 ? 2 : 4;
 
             _labelsMap[randomCell.row, randomCell.col].Text = value.ToString();
         }
@@ -230,6 +230,25 @@ namespace _2048WinFormsAppNew
             // Генерация двух начальных чисел
             GenerateNumber();
             GenerateNumber();
+        }
+
+        private Color GetTileColor(int value)
+        {
+            switch (value)
+            {
+                case 2: return Color.FromArgb(238, 228, 218); // #eee4da
+                case 4: return Color.FromArgb(237, 224, 200); // #ede0c8
+                case 8: return Color.FromArgb(242, 177, 121); // #f2b179
+                case 16: return Color.FromArgb(245, 149, 99); // #f59563
+                case 32: return Color.FromArgb(246, 124, 95); // #f67c5f
+                case 64: return Color.FromArgb(246, 94, 59); // #f65e3b
+                case 128: return Color.FromArgb(237, 207, 114); // #edcf72
+                case 256: return Color.FromArgb(237, 204, 97); // #edcc61
+                case 512: return Color.FromArgb(237, 200, 80); // #edc850
+                case 1024: return Color.FromArgb(237, 197, 63); // #edc53f
+                case 2048: return Color.FromArgb(237, 194, 46); // #edc22e
+                default: return Color.FromArgb(60, 58, 50);    // Для больших значений
+            }
         }
 
         private void LoadSettings()
