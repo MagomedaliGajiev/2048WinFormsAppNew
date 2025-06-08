@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace _2048WinFormsAppNew
+﻿namespace _2048WinFormsAppNew
 {
     public partial class MainForm : Form
     {
@@ -15,9 +13,6 @@ namespace _2048WinFormsAppNew
 
         public MainForm()
         {
-            _inputForm = new InputForm();
-            _currentPlayer = _inputForm.inputTextBox.Text;
-
             InitializeComponent();
             LoadSettings(); // Загружаем размер поля
             LoadBestScore();
@@ -91,7 +86,7 @@ namespace _2048WinFormsAppNew
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitMap();
-            ResetGame();
+            StartGame();
         }
 
         private void ShowScore()
@@ -187,8 +182,10 @@ namespace _2048WinFormsAppNew
             // Цвет обновится в UpdateTileColors
         }
 
-        private void ResetGame()
+        private void StartGame()
         {
+            _inputForm = new InputForm();
+            _currentPlayer = _inputForm.inputTextBox.Text;
             _inputForm.ShowDialog();
             _currentPlayer = _inputForm.inputTextBox.Text;
             _score = 0;
@@ -482,14 +479,14 @@ namespace _2048WinFormsAppNew
                 if (MessageBox.Show("Игра окончена, к сожалению вы проиграли! Хотите сыграть еще?", "Конец игры",
                     MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    ResetGame();
+                    StartGame();
                 }
             }
         }
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ResetGame();
+            StartGame();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

@@ -180,7 +180,7 @@ namespace _2048WinFormsAppNew
                     _mapSize = sizeForm.SelectedSize;
                     SaveSettings();
                     InitMap();
-                    ResetGame();
+                    StartGame();
                 }
             }
         }
