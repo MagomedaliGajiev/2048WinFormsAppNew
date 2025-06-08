@@ -15,6 +15,10 @@ namespace _2048WinFormsAppNew
 
         public MainForm()
         {
+            var inputForm = new InputForm();
+            inputForm.ShowDialog();
+            _currentPlayer = inputForm.inputTextBox.Text;
+
             InitializeComponent();
             LoadSettings(); // Загружаем размер поля
             LoadBestScore();

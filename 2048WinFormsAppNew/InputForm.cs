@@ -4,12 +4,9 @@
     {
         public string InputText { get; private set; }
         private readonly string _prompt;
-        public InputForm(string prompt, string defaultValue = "")
+        public InputForm()
         {
             InitializeComponent();
-            _prompt = prompt;
-            inputTextBox.Text = defaultValue;
-            promptLabel.Text = prompt;
         }
 
         private void okButton_Click(object sender, EventArgs e)
