@@ -44,7 +44,7 @@
             }
         }
 
-        private void SaveGameResult()
+        private void SaveGameHistory()
         {
             UserManager.Add(new User() { Name = _currentPlayer, Score = _score, DateTime = DateTime.Now} );
         }
@@ -80,6 +80,21 @@
                 }
             }
 
+            return false;
+        }
+
+        private bool WinGame()
+        {
+            for (int i = 0; i < _mapSize; i++)
+            {
+                for (int j = 0; j < _mapSize; j++)
+                {
+                    if (_labelsMap[i, j].Text == "2048")
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 
@@ -472,10 +487,20 @@
                 UpdateTileColors(); // Обновляем цвета после перемещения
             }
 
+            if (WinGame())
+            {
+                SaveGameHistory();
+                if (MessageBox.Show("Ура, вы победили! Хотите сыграть еще?", "Конец игры",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    StartGame();
+                }
+            }
+
             // Проверка окончания игры
             if (!HasMoves())
             {
-                SaveGameResult();
+                SaveGameHistory();
                 if (MessageBox.Show("Игра окончена, к сожалению вы проиграли! Хотите сыграть еще?", "Конец игры",
                     MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
