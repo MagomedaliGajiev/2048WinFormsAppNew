@@ -10,14 +10,13 @@ namespace _2048WinFormsAppNew
         private static Random _random = new Random();
         private int _score = 0;
         private int _bestScore = 0;
-        private static string _historyFilePath = "game_history.txt";
-        private string _currentPlayer = "Player";
+        private string _currentPlayer;
+        private InputForm _inputForm;
 
         public MainForm()
         {
-            var inputForm = new InputForm();
-            inputForm.ShowDialog();
-            _currentPlayer = inputForm.inputTextBox.Text;
+            _inputForm = new InputForm();
+            _currentPlayer = _inputForm.inputTextBox.Text;
 
             InitializeComponent();
             LoadSettings(); // Загружаем размер поля
@@ -52,47 +51,13 @@ namespace _2048WinFormsAppNew
 
         private void SaveGameResult()
         {
-            try
-            {
-                string record = $"{_currentPlayer}|{_score}|{DateTime.Now:yyyy-MM-dd HH:mm}\n";
-                File.AppendAllText(_historyFilePath, record);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка сохранения истории: {ex.Message}");
-            }
+            UserManager.Add(new User() { Name = _currentPlayer, Score = _score, DateTime = DateTime.Now} );
         }
 
         private void ShowGameHistory()
         {
-            if (!File.Exists(_historyFilePath))
-            {
-                MessageBox.Show("История игр пуста!", "История");
-                return;
-            }
-
-            try
-            {
-                var history = new StringBuilder();
-                history.AppendLine("История игр:\n");
-                history.AppendLine("Игрок\t\tОчки\t\tДата");
-                history.AppendLine("-----------------------------------");
-
-                foreach (var line in File.ReadAllLines(_historyFilePath))
-                {
-                    var parts = line.Split('|');
-                    if (parts.Length >= 3)
-                    {
-                        history.AppendLine($"{parts[0]}\t\t{parts[1]}\t\t{parts[2]}");
-                    }
-                }
-
-                MessageBox.Show(history.ToString(), "История игр");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка чтения истории: {ex.Message}");
-            }
+            var gameHistory = new GameHistoryForm();
+            gameHistory.ShowDialog();
         }
 
         private bool HasMoves()
@@ -224,6 +189,8 @@ namespace _2048WinFormsAppNew
 
         private void ResetGame()
         {
+            _inputForm.ShowDialog();
+            _currentPlayer = _inputForm.inputTextBox.Text;
             _score = 0;
             ShowScore();
 
@@ -512,14 +479,10 @@ namespace _2048WinFormsAppNew
             if (!HasMoves())
             {
                 SaveGameResult();
-                if (MessageBox.Show("Игра окончена! Хотите сыграть еще?", "Конец игры",
+                if (MessageBox.Show("Игра окончена, к сожалению вы проиграли! Хотите сыграть еще?", "Конец игры",
                     MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     ResetGame();
-                }
-                else
-                {
-                    Close();
                 }
             }
         }
