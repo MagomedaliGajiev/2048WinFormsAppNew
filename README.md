@@ -23,20 +23,7 @@
 - Работа с файловой системой
 
 ## Структура проекта
-2048WinFormsAppNew/
-├── MainForm.cs              # Главная форма с логикой игры
-├── InputForm.cs             # Форма ввода имени игрока
-├── SizeSelectionForm.cs     # Форма выбора размера поля
-├── GameHistoryForm.cs       # Форма истории игр
-├── User.cs                  # Модель данных игрока
-├── UserManager.cs           # Управление данными игроков
-├── FileProvider.cs          # Работа с файловой системой
-├── Properties/
-│   └── Settings.settings    # Настройки приложения
-├── bin/                     # Скомпилированные файлы
-├── obj/
-├── App.config               # Конфигурация приложения
-└── README.md                # Этот файл
+![Structure Screenshot](https://github.com/MagomedaliGajiev/2048WinFormsAppNew/blob/master/2048WinFormsAppNew/screenshot.png)
 
 
 ## Установка и запуск
