@@ -23,7 +23,7 @@
 - Работа с файловой системой
 
 ## Структура проекта
-![Structure Screenshot](https://github.com/MagomedaliGajiev/2048WinFormsAppNew/blob/master/2048WinFormsAppNew/screenshot.png)
+![Structure Screenshot](https://github.com/MagomedaliGajiev/2048WinFormsAppNew/blob/master/2048WinFormsAppNew/structure.png)
 
 
 ## Установка и запуск
