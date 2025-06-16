@@ -22,17 +22,6 @@
 - JSON-сериализация (Newtonsoft.Json)
 - Работа с файловой системой
 
-## Установка и запуск
-
-### Требования
-- Windows 7 или новее
-- .NET 6.0 Desktop Runtime
-
-### Инструкция
-1. Клонируйте репозиторий:
-```bash
-git clone https://github.com/yourusername/2048-winforms.git
-
 ## Структура проекта
 2048WinFormsAppNew/
 ├── MainForm.cs              # Главная форма с логикой игры
@@ -48,3 +37,15 @@ git clone https://github.com/yourusername/2048-winforms.git
 ├── obj/
 ├── App.config               # Конфигурация приложения
 └── README.md                # Этот файл
+
+
+## Установка и запуск
+
+### Требования
+- Windows 7 или новее
+- .NET 6.0 Desktop Runtime
+
+### Инструкция
+1. Клонируйте репозиторий:
+```bash
+git clone https://github.com/yourusername/2048-winforms.git
