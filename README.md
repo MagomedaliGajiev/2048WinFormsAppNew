@@ -33,7 +33,7 @@
 ```bash
 git clone https://github.com/yourusername/2048-winforms.git
 
-
+### Структура проекта
 2048WinFormsAppNew/
 ├── MainForm.cs              # Главная форма с логикой игры
 ├── InputForm.cs             # Форма ввода имени игрока
