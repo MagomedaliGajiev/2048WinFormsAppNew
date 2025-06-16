@@ -1,6 +1,6 @@
 # Игра 2048 - Windows Forms приложение
 
-![Game Screenshot](https://github.com/MagomedaliGajiev/2048WinFormsAppNew/tree/master/2048WinFormsAppNew/screenshot.png)
+![Game Screenshot](https://github.com/MagomedaliGajiev/2048WinFormsAppNew/blob/master/2048WinFormsAppNew/screenshot.png)
 
 Простая и увлекательная реализация популярной игры 2048 с использованием Windows Forms и C#. Игроки могут перемещать плитки, объединять их и стремиться к достижению заветной плитки 2048.
 
