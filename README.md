@@ -32,3 +32,19 @@
 1. Клонируйте репозиторий:
 ```bash
 git clone https://github.com/yourusername/2048-winforms.git
+
+
+2048WinFormsAppNew/
+├── MainForm.cs              # Главная форма с логикой игры
+├── InputForm.cs             # Форма ввода имени игрока
+├── SizeSelectionForm.cs     # Форма выбора размера поля
+├── GameHistoryForm.cs       # Форма истории игр
+├── User.cs                  # Модель данных игрока
+├── UserManager.cs           # Управление данными игроков
+├── FileProvider.cs          # Работа с файловой системой
+├── Properties/
+│   └── Settings.settings    # Настройки приложения
+├── bin/                     # Скомпилированные файлы
+├── obj/
+├── App.config               # Конфигурация приложения
+└── README.md                # Этот файл
