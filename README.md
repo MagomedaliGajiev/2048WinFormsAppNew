@@ -35,4 +35,4 @@
 ### Инструкция
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/yourusername/2048-winforms.git
+git clone https://github.com/MagomedaliGajiev/2048-winforms.git
